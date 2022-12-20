@@ -41,13 +41,18 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
+  "quick_lint_js",
   "sumneko_lua",
   "rust_analyzer",
   "tsserver",
-  "quick_lint_js",
 }
 
-require("mason").setup()
+local mason_status_ok, mason = pcall(require, "mason")
+if not mason_status_ok then
+  return
+end
+mason.setup()
+
 require("mason-lspconfig").setup({
   ensure_installed = servers,
   automatic_installation = true,
@@ -69,7 +74,7 @@ for _, server in pairs(servers) do
     --capabilities = require("chrisatmachine.lsp.handlers").capabilities,
   }
 
-  server_name = vim.split(server, "@")[1]
+  local server_name = vim.split(server, "@")[1]
 
   local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server_name)
   if require_ok then

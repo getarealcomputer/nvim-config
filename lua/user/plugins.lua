@@ -23,12 +23,27 @@ return require('packer').startup(function(use)
   -- the package manager itself
   use({ 'wbthomason/packer.nvim' })
 
-  -- LSP and its config
+  -- LSP(Language Server Protocol) and its config
   use({
+    "neovim/nvim-lspconfig",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
   })
+
+  -- Formatter
+  use({ "mhartington/formatter.nvim" })
+
+  -- Linter for language not covered by nvim-lspconfig
+  use({ "mfussenegger/nvim-lint" })
+
+  -- Web dev icons
+  use({ "nvim-tree/nvim-web-devicons" })
+
+  -- DAP(Debug Adapter Protocol)
+  use({ "mfussenegger/nvim-dap" })
+
+  -- Java eclipse
+  use({ "mfussenegger/nvim-jdtls" })
 
   -- zephyr colorscheme
   use({
@@ -37,10 +52,12 @@ return require('packer').startup(function(use)
   })
 
   -- the best fuzzy finder.?
-  use({
-    "nvim-telescope/telescope.nvim",
-    requires = { "nvim-lua/plenary.nvim" }
-  })
+  use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.0',
+  -- or                            , branch = '0.1.x',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
+
 
   -- greeter screen
   use({ 'goolord/alpha-nvim' })
