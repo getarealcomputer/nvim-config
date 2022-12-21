@@ -45,6 +45,7 @@ local servers = {
   "sumneko_lua",
   "rust_analyzer",
   "tsserver",
+  "jdtls"
 }
 
 local mason_status_ok, mason = pcall(require, "mason")

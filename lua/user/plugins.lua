@@ -11,7 +11,8 @@ local ensure_packer = function()
       install_path
     })
     print("Installing packer, close and reopen Neovim...")
-    vim.cmd [[packadd packer.nvim]]
+    -- vim.cmd[['packadd packer.nvim']]
+    vim.cmd.packadd('packer.nvim')
     return true
   end
   return false
@@ -23,12 +24,30 @@ return require('packer').startup(function(use)
   -- the package manager itself
   use({ 'wbthomason/packer.nvim' })
 
+  -- auto complete
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+  use 'hrsh7th/nvim-cmp'
+
+  -- required by nvim-cmp, for snippets
+  use 'hrsh7th/cmp-vsnip'
+  use 'hrsh7th/vim-vsnip'
+
   -- LSP(Language Server Protocol) and its config
   use({
     "neovim/nvim-lspconfig",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
   })
+
+  -- Treesitter    
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    tag = 'v0.8.1',
+    -- run = ':TSUpdate'
+  }
 
   -- Formatter
   use({ "mhartington/formatter.nvim" })
@@ -45,11 +64,13 @@ return require('packer').startup(function(use)
   -- Java eclipse
   use({ "mfussenegger/nvim-jdtls" })
 
-  -- zephyr colorscheme
+  -- colorschemes
   use({
     'glepnir/zephyr-nvim',
     requires = { 'nvim-treesitter/nvim-treesitter', opt = true },
   })
+  use { "folke/tokyonight.nvim" }
+  use { "lunarvim/darkplus.nvim" }
 
   -- the best fuzzy finder.?
   use {
@@ -57,7 +78,6 @@ return require('packer').startup(function(use)
   -- or                            , branch = '0.1.x',
     requires = { {'nvim-lua/plenary.nvim'} }
   }
-
 
   -- greeter screen
   use({ 'goolord/alpha-nvim' })

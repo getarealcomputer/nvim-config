@@ -1,7 +1,13 @@
 vim.opt.path:append { "**" }
 vim.opt.wildmenu = true
 
+vim.opt.fileencoding = "utf-8"
+
 vim.opt.clipboard = "unnamedplus"
+
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+
+vim.opt.undofile = true
 
 vim.opt.expandtab = true
 vim.opt.autoindent = true
