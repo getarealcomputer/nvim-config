@@ -30,22 +30,22 @@ local on_attach = function(client, bufnr)
   end
 
   lsp_keymaps(bufnr)
-
-  -- add illuminate extension first to use this
-  --local status_ok, illuminate = pcall(require, "illuminate")
-  --if not status_ok then
-  --  return
-  --end
-
-  --illuminate.on_attach(client)
 end
+
+local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not status_cmp_ok then
+  return
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 local servers = {
   "quick_lint_js",
   "sumneko_lua",
   "rust_analyzer",
   "tsserver",
-  "jdtls"
 }
 
 local mason_status_ok, mason = pcall(require, "mason")
@@ -70,9 +70,8 @@ local opts = {}
 
 for _, server in pairs(servers) do
   opts = {
-    on_attach = on_attach
-    --on_attach = require("chrisatmachine.lsp.handlers").on_attach,
-    --capabilities = require("chrisatmachine.lsp.handlers").capabilities,
+    on_attach = on_attach,
+    capabilities = capabilities
   }
 
   local server_name = vim.split(server, "@")[1]
