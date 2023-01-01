@@ -35,6 +35,9 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
 
+  -- snippets collection
+  use "rafamadriz/friendly-snippets"
+
   -- LSP(Language Server Protocol) and its config
   use({
     "neovim/nvim-lspconfig",

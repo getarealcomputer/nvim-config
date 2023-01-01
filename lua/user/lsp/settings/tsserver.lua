@@ -1,5 +1,6 @@
 return {
   filetypes = {
+    "javascript",
     "javascriptreact",
     "javascript.jsx",
     "typescript",
