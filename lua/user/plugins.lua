@@ -1,96 +1,101 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({
-      'git',
-      'clone',
-      '--depth',
-      '1',
-      'https://github.com/wbthomason/packer.nvim',
-      install_path
-    })
-    print("Installing packer, close and reopen Neovim...")
-    -- vim.cmd[['packadd packer.nvim']]
-    vim.cmd.packadd('packer.nvim')
-    return true
-  end
-  return false
+local fn = vim.fn
+local install_path = fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(install_path) then
+  vim.fn.system({
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    install_path,
+  })
 end
+vim.opt.rtp:prepend(install_path)
 
-local packer_bootstrap = ensure_packer()
+return require('lazy').setup({
+  {-- auto complete
+    'hrsh7th/nvim-cmp',
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
 
-return require('packer').startup(function(use)
-  -- the package manager itself
-  use({ 'wbthomason/packer.nvim' })
+      -- required by nvim-cmp, for snippets
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
 
-  -- auto complete
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/nvim-cmp'
+      -- snippets collection
+      'rafamadriz/friendly-snippets',
+    },
+  },
 
-  -- required by nvim-cmp, for snippets
-  use 'hrsh7th/cmp-vsnip'
-  use 'hrsh7th/vim-vsnip'
+  {-- LSP(Language Server Protocol) and its config
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+      -- Useful status updates for LSP
+      'j-hui/fidget.nvim',
 
-  -- snippets collection
-  use "rafamadriz/friendly-snippets"
+      -- Additional lua configuration, makes nvim stuff amazing
+      'folke/neodev.nvim',
+    },
+  },
 
-  -- LSP(Language Server Protocol) and its config
-  use({
-    "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-  })
-
-  -- Treesitter    
-  use {
+  {-- Treesitter    
     'nvim-treesitter/nvim-treesitter',
-    tag = 'v0.8.1',
-    -- run = ':TSUpdate'
-  }
+    build = function()
+      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end
+  },
 
-  -- Formatter
-  use({ "mhartington/formatter.nvim" })
+  { -- Additional text objects via treesitter
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    after = 'nvim-treesitter',
+  },
 
-  -- Linter for language not covered by nvim-lspconfig
-  use({ "mfussenegger/nvim-lint" })
+  { -- Formatter, linter, Debug Adapter Protocol
+    'mhartington/formatter.nvim',
+    'mfussenegger/nvim-lint',
+    'mfussenegger/nvim-dap', 
+    'mfussenegger/nvim-jdtls',
+    dependencies = {
+     'nvim-tree/nvim-web-devicons',
+    },
+  },
 
-  -- Web dev icons
-  use({ "nvim-tree/nvim-web-devicons" })
-
-  -- DAP(Debug Adapter Protocol)
-  use({ "mfussenegger/nvim-dap" })
-
-  -- Java eclipse
-  use({ "mfussenegger/nvim-jdtls" })
-
-  -- colorschemes
-  use({
+  {-- colorschemes
     'glepnir/zephyr-nvim',
-    requires = { 'nvim-treesitter/nvim-treesitter', opt = true },
-  })
-  use { "folke/tokyonight.nvim" }
-  use { "lunarvim/darkplus.nvim" }
+    'folke/tokyonight.nvim',
+    'lunarvim/darkplus.nvim',
+    'navarasu/onedark.nvim' -- Theme inspired by Atom
+  },
 
-  -- the best fuzzy finder.?
-  use {
+  {-- the best fuzzy finder?
     'nvim-telescope/telescope.nvim', tag = '0.1.0',
   -- or                            , branch = '0.1.x',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
+    dependencies = {'nvim-lua/plenary.nvim'},
+  },
+
+  -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+  { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 },
 
   -- greeter screen
-  use({ 'goolord/alpha-nvim' })
+  { 'goolord/alpha-nvim' },
 
   -- status line
-  use({ 'nvim-lualine/lualine.nvim' })
+  { 'nvim-lualine/lualine.nvim' },
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if packer_bootstrap then
-    require('packer').sync()
-  end
-end)
+  -- Git related plugins
+  'tpope/vim-fugitive',
+  'tpope/vim-rhubarb',
+  'lewis6991/gitsigns.nvim',
+
+  'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
+  'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
+  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+
+})
+-- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et
