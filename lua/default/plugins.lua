@@ -58,7 +58,7 @@ return require('lazy').setup({
   { -- Formatter, linter, Debug Adapter Protocol
     'mhartington/formatter.nvim',
     'mfussenegger/nvim-lint',
-    'mfussenegger/nvim-dap', 
+    'mfussenegger/nvim-dap',
     'mfussenegger/nvim-jdtls',
     dependencies = {
      'nvim-tree/nvim-web-devicons',

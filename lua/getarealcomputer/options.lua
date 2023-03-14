@@ -13,6 +13,7 @@ vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.shiftround = true
 vim.opt.textwidth = 79
 vim.opt.wrap = true
 
@@ -31,3 +32,4 @@ vim.opt.listchars = {
   nbsp = '+',
   trail = '-'
 }
+

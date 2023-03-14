@@ -1,3 +1,12 @@
+local servers = {
+  "quick_lint_js",
+  "lua_ls",
+  "rust_analyzer",
+  "tsserver",
+  "golangci_lint_ls",
+  "gopls"
+}
+
 local function lsp_keymaps(bufnr)
   local opts = { noremap = true, silent = true }
   local keymap = vim.api.nvim_buf_set_keymap
@@ -41,13 +50,6 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-local servers = {
-  "quick_lint_js",
-  "sumneko_lua",
-  "rust_analyzer",
-  "tsserver",
-}
-
 local mason_status_ok, mason = pcall(require, "mason")
 if not mason_status_ok then
   return
@@ -76,7 +78,9 @@ for _, server in pairs(servers) do
 
   local server_name = vim.split(server, "@")[1]
 
-  local require_ok, conf_opts = pcall(require, "user.lsp.settings." .. server_name)
+  local require_ok, conf_opts = pcall(
+    require, "default.lsp.settings." .. server_name
+  )
   if require_ok then
     opts = vim.tbl_deep_extend("force", conf_opts, opts)
   end
