@@ -1,35 +1,36 @@
-vim.opt.path:append { "**" }
-vim.opt.wildmenu = true
+local opt = vim.opt
+opt.path:append { "**" }
+opt.wildmenu = true
 
-vim.opt.fileencoding = "utf-8"
+opt.fileencoding = "utf-8"
 
-vim.opt.clipboard = "unnamedplus"
+opt.clipboard = "unnamedplus"
 
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
-vim.opt.undofile = true
+opt.undofile = true
 
-vim.opt.expandtab = true
-vim.opt.autoindent = true
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.shiftround = true
-vim.opt.textwidth = 79
-vim.opt.wrap = true
+opt.expandtab = true
+opt.autoindent = true
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.shiftround = true
+opt.textwidth = 79
+opt.wrap = true
 
-vim.opt.number = true
+opt.number = true
 
-vim.opt.colorcolumn:append { "80" }
+opt.colorcolumn:append { "80" }
 
-vim.opt.showmode = false
+opt.showmode = false
 
-vim.opt.list = true
-vim.opt.listchars = {
-  space = '.',
+opt.list = true
+opt.listchars = {
+  space = '⋅',
+  eol = '↴',
   tab = '▸ ',
   extends = '❯',
   precedes = '❮',
   nbsp = '+',
   trail = '-'
 }
-
