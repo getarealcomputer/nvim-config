@@ -1,4 +1,9 @@
+vim.g.neon_style = "dark"
+
 local opt = vim.opt
+
+opt.termguicolors = true
+opt.cursorline = true
 opt.path:append { "**" }
 opt.wildmenu = true
 

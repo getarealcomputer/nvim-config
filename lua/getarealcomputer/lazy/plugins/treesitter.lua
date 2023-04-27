@@ -8,6 +8,7 @@ return {
       highlight = { enable = true },
       ensure_installed = {
         "c", "lua", "vim", "help",
+        "regex",
         "typescript",
         "javascript",
         "go",
