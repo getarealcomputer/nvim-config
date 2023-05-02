@@ -7,12 +7,13 @@ return {
     opts = {
       highlight = { enable = true },
       ensure_installed = {
-        "c", "lua", "vim", "help",
+        "c", "lua", "vim",
         "regex",
         "typescript",
         "javascript",
         "go",
-        "rust"
+        "rust",
+        "solidity",
       }
     },
     config = function(_, opts)

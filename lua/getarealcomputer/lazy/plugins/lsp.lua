@@ -47,6 +47,7 @@ return {
           },
         },
         intelephense = {},
+        solc = {},
       },
     },
     config = function(_, opts)
