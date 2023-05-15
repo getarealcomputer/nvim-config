@@ -2,6 +2,7 @@ return {
   -- which-key
   {
     "folke/which-key.nvim",
+    enabled = false,
     event = "VeryLazy",
     opts = {
       plugins = { spelling = true },
