@@ -1,0 +1,7 @@
+{
+    "workspace.library": [
+        "/home/redx/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/5393ac01",
+        "/home/redx/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/03aa7e92",
+        "/home/redx/.local/share/nvim/mason/packages/lua-language-server/libexec/meta/0d60b8dd"
+    ]
+}
