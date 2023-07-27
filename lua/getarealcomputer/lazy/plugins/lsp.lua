@@ -9,6 +9,10 @@ return {
       {
         "hrsh7th/cmp-nvim-lsp",
       },
+      -- LSP notificatio
+      {
+        "nvim-lua/lsp-status.nvim",
+      },
     },
     keys = {
       { "<leader>li", "<cmd>LspInfo<cr>",         desc = "LSP Info" },
@@ -31,7 +35,6 @@ return {
             "--stdio",
           },
         },
-        --eslint = {},
         gopls = {},
         clangd = {},
         rust_analyzer = {},
@@ -51,22 +54,24 @@ return {
     },
     config = function(_, opts)
       local servers = opts.servers
+      local lsp_status = require("lsp-status")
+      lsp_status.register_progress()
+
       -- diagnostics
       for name, icon in pairs(require("getarealcomputer.config.icons").diagnostics) do
         name = "DiagnosticSign" .. name
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
       end
       vim.diagnostic.config(opts.diagnostics)
+
       local capabilities =
         require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-      require("lspconfig").solidity.setup({
-        root_dir = require("lspconfig").util.root_pattern(".git", "package.json", "foundry.toml"),
-      })
-
       local function setup(server)
         local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(capabilities),
+          --capabilities = vim.deepcopy(capabilities),
+          on_attach = lsp_status.on_attach,
+          capabilities = lsp_status.capabilities,
         }, servers[server] or {})
 
         require("lspconfig")[server].setup(server_opts)
@@ -79,10 +84,9 @@ return {
         ensure_installed_table[#ensure_installed_table + 1] = server
       end
 
-      for server, _ in pairs(servers) do
-        setup(server)
-        ensure_installed_table[#ensure_installed_table + 1] = server
-      end
+      require("lspconfig").solidity.setup({
+        root_dir = require("lspconfig").util.root_pattern(".git", "package.json", "foundry.toml"),
+      })
 
       require("mason-lspconfig").setup({
         ensure_installed = ensure_installed_table,
@@ -122,5 +126,14 @@ return {
   {
     "mfussenegger/nvim-jdtls",
     ft = "java",
+  },
+  -- LSP progress status
+  {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+    opts = function()
+      require("fidget").setup({})
+    end,
   },
 }
