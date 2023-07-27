@@ -58,7 +58,7 @@ return {
       end
       vim.diagnostic.config(opts.diagnostics)
       local capabilities =
-          require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+        require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       require("lspconfig").solidity.setup({
         root_dir = require("lspconfig").util.root_pattern(".git", "package.json", "foundry.toml"),
@@ -79,6 +79,12 @@ return {
         ensure_installed_table[#ensure_installed_table + 1] = server
       end
 
+      for server, _ in pairs(servers) do
+        setup(server)
+        ensure_installed_table[#ensure_installed_table + 1] = server
+      end
+
+>>>>>>> fb11d7a89e2edd80d12826b112acef8b22b20266
       require("mason-lspconfig").setup({
         ensure_installed = ensure_installed_table,
       })
@@ -117,15 +123,5 @@ return {
   {
     "mfussenegger/nvim-jdtls",
     ft = "java",
-  },
-  -- LSP notificatio
-  {
-    "mrded/nvim-lsp-notify",
-    dependencies = { "rcarriga/nvim-notify" },
-    opts = function()
-      require("lsp-notify").setup({
-        notify = require('notify')
-      })
-    end,
   },
 }
