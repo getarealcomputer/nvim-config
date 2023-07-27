@@ -84,7 +84,6 @@ return {
         ensure_installed_table[#ensure_installed_table + 1] = server
       end
 
->>>>>>> fb11d7a89e2edd80d12826b112acef8b22b20266
       require("mason-lspconfig").setup({
         ensure_installed = ensure_installed_table,
       })
