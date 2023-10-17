@@ -166,31 +166,74 @@ return {
     },
     -- formatter
     {
-        "mhartington/formatter.nvim",
-        opts = {
-            logging = true,
+        "stevearc/conform.nvim",
+        event = { "BufWritePre" },
+        cmd = { "ConformInfo" },
+        keys = {
+            {
+                -- Customize or remove this keymap to your liking
+                "<leader>f",
+                function()
+                    require("conform").format({
+                        async = true,
+                        lsp_fallback = true,
+                    })
+                end,
+                mode = "",
+                desc = "Format buffer",
+            },
         },
-        config = function(_, opts)
-            require("formatter").setup({
-                logging = opts.logging,
-                filetype = {
-                    -- Formatter configurations for filetype "lua" go here
-                    -- and will be executed in order
-                    lua = {
-                        -- "formatter.filetypes.lua" defines default configurations for the
-                        -- "lua" filetype
-                        require("formatter.filetypes.lua").stylua,
-                    },
-                    javascript = {
-                        require("formatter.filetypes.javascript").prettierd,
-                    },
-                    typescript = {
-                        require("formatter.filetypes.typescript").prettierd,
-                    },
+        -- Everything in opts will be passed to setup()
+        opts = {
+            -- Define your formatters
+            formatters_by_ft = {
+                lua = { "stylua" },
+                python = { "isort", "black" },
+                javascript = { { "prettierd", "prettier" } },
+                typescript = { { "prettierd", "prettier" } },
+            },
+            -- Set up format-on-save
+            format_on_save = { timeout_ms = 500, lsp_fallback = true },
+            -- Customize formatters
+            formatters = {
+                shfmt = {
+                    prepend_args = { "-i", "2" },
                 },
-            })
+            },
+        },
+        init = function()
+            -- If you want the formatexpr, here is the place to set it
+            vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
         end,
     },
+    -- formatter
+    --{
+    --    "mhartington/formatter.nvim",
+    --    opts = {
+    --        logging = true,
+    --    },
+    --    config = function(_, opts)
+    --        require("formatter").setup({
+    --            logging = opts.logging,
+    --            filetype = {
+    --                -- Formatter configurations for filetype "lua" go here
+    --                -- and will be executed in order
+    --                lua = {
+    --                    -- "formatter.filetypes.lua" defines default configurations for the
+    --                    -- "lua" filetype
+    --                    require("formatter.filetypes.lua").stylua,
+    --                },
+    --                javascript = {
+    --                    require("formatter.filetypes.javascript").prettierd,
+    --                },
+    --                typescript = {
+    --                    require("formatter.filetypes.typescript").prettierd,
+    --                },
+    --            },
+    --        })
+    --    end,
+    --},
+    --legacy dependencies (FOR ARCHIVE ONLY)
     --{
     --  "jose-elias-alvarez/null-ls.nvim",
     --  event = { "BufReadPre", "BufNewFile" },
