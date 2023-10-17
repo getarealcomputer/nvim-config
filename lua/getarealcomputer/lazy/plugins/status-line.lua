@@ -10,7 +10,6 @@ return {
     event = "VeryLazy",
     opts = function()
       local icons = require("getarealcomputer.config.icons")
-      local lsp_status = require("lsp-status")
 
       return {
         options = {
@@ -53,7 +52,7 @@ return {
             },
             {
               function()
-                lsp_status.status()
+                require("lsp-status").status()
               end,
             },
           },

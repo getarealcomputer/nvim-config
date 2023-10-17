@@ -3,15 +3,19 @@ return {
   -- tokyonight
   {
     "folke/tokyonight.nvim",
-    lazy = true,
     opts = { style = "moon" },
+    lazy = true,
   },
 
   -- catppuccin
   {
     "catppuccin/nvim",
-    lazy = true,
     name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme catppuccin]])
+    end,
   },
   {
     "glepnir/zephyr-nvim",
@@ -20,12 +24,8 @@ return {
   },
   {
     "tanvirtin/monokai.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     name = "monokai",
-    config = function()
-      vim.cmd([[colorscheme monokai_ristretto]])
-    end,
   },
   {
     "rafamadriz/neon",

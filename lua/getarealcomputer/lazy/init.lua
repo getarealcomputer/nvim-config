@@ -15,5 +15,5 @@ require("lazy").setup({
   spec = {
     { import = "getarealcomputer.lazy.plugins" }
   },
-  install = { colorscheme = { "tokyonight", "habamax" }}
+  install = { colorscheme = { "tokyonight", "habamax" } }
 })

@@ -1,10 +1,16 @@
 return {
   {
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
-      char = "│",
-    }
+      --char = "│",
+    },
+    config = function (_, opts)
+      require("ibl").setup({
+
+      })
+    end
   },
   {
     "echasnovski/mini.indentscope",

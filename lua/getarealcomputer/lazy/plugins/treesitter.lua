@@ -14,6 +14,8 @@ return {
         "go",
         "rust",
         "solidity",
+        "http",
+        "json",
       }
     },
     config = function(_, opts)
