@@ -10,9 +10,9 @@ return {
                 "hrsh7th/cmp-nvim-lsp",
             },
             -- LSP notificatio
-            {
-                "nvim-lua/lsp-status.nvim",
-            },
+            --{
+            --    "nvim-lua/lsp-status.nvim",
+            --},
         },
         keys = {
             { "<leader>li", "<cmd>LspInfo<cr>", desc = "LSP Info" },
@@ -93,8 +93,8 @@ return {
         },
         config = function(_, opts)
             local servers = opts.servers
-            local lsp_status = require("lsp-status")
-            lsp_status.register_progress()
+            --local lsp_status = require("lsp-status")
+            --lsp_status.register_progress()
 
             -- diagnostics
             for name, icon in
@@ -118,16 +118,15 @@ return {
                 })
             vim.diagnostic.config(opts.diagnostics)
 
-            --local capabilities =
-            --  require("cmp_nvim_lsp").default_capabilities(
-            --    vim.lsp.protocol.make_client_capabilities()
-            --  )
+            local capabilities = require("cmp_nvim_lsp").default_capabilities(
+                vim.lsp.protocol.make_client_capabilities()
+            )
 
             local function setup(server)
                 local server_opts = vim.tbl_deep_extend("force", {
-                    --capabilities = vim.deepcopy(capabilities),
-                    on_attach = lsp_status.on_attach,
-                    capabilities = lsp_status.capabilities,
+                    capabilities = vim.deepcopy(capabilities),
+                    --on_attach = lsp_status.on_attach,
+                    --capabilities = lsp_status.capabilities,
                 }, servers[server] or {})
 
                 require("lspconfig")[server].setup(server_opts)
