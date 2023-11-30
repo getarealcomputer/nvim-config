@@ -78,10 +78,19 @@ return {
                 lua_ls = {
                     settings = {
                         Lua = {
-                            runtime = { version = "LuaJIT" },
-                            diagnostics = { globals = { "vim", "util" } },
+                            runtime = {
+                                version = "LuaJIT",
+                            },
+                            diagnostics = {
+                                globals = {
+                                    "vim",
+                                    "util",
+                                },
+                            },
                             library = vim.api.nvim_get_runtime_file("", true),
-                            telemetry = { enable = false },
+                            telemetry = {
+                                enable = false,
+                            },
                         },
                     },
                 },
@@ -101,10 +110,11 @@ return {
                 pairs(require("getarealcomputer.config.icons").diagnostics)
             do
                 name = "DiagnosticSign" .. name
-                vim.fn.sign_define(
-                    name,
-                    { text = icon, texthl = name, numhl = "" }
-                )
+                vim.fn.sign_define(name, {
+                    text = icon,
+                    texthl = name,
+                    numhl = "",
+                })
             end
 
             vim.lsp.handlers["textDocument/hover"] =
@@ -175,7 +185,7 @@ return {
                 function()
                     require("conform").format({
                         async = true,
-                        lsp_fallback = true,
+                        lsp_fallback = false,
                     })
                 end,
                 mode = "",
@@ -190,13 +200,18 @@ return {
                 python = { "isort", "black" },
                 javascript = { { "prettierd", "prettier" } },
                 typescript = { { "prettierd", "prettier" } },
+                javascriptreact = { { "prettierd", "prettier" } },
+                go = { "golines", "goimports", "gofmt" },
             },
             -- Set up format-on-save
-            format_on_save = { timeout_ms = 500, lsp_fallback = true },
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_fallback = true,
+            },
             -- Customize formatters
             formatters = {
-                shfmt = {
-                    prepend_args = { "-i", "2" },
+                golines = {
+                    prepend_args = { "-m", "80" },
                 },
             },
         },
@@ -206,32 +221,35 @@ return {
         end,
     },
     -- formatter
-    --{
-    --    "mhartington/formatter.nvim",
-    --    opts = {
-    --        logging = true,
-    --    },
-    --    config = function(_, opts)
-    --        require("formatter").setup({
-    --            logging = opts.logging,
-    --            filetype = {
-    --                -- Formatter configurations for filetype "lua" go here
-    --                -- and will be executed in order
-    --                lua = {
-    --                    -- "formatter.filetypes.lua" defines default configurations for the
-    --                    -- "lua" filetype
-    --                    require("formatter.filetypes.lua").stylua,
-    --                },
-    --                javascript = {
-    --                    require("formatter.filetypes.javascript").prettierd,
-    --                },
-    --                typescript = {
-    --                    require("formatter.filetypes.typescript").prettierd,
-    --                },
-    --            },
-    --        })
-    --    end,
-    --},
+    -- {
+    --     "mhartington/formatter.nvim",
+    --     opts = {
+    --         logging = true,
+    --     },
+    --     config = function(_, opts)
+    --         require("formatter").setup({
+    --             logging = opts.logging,
+    --             filetype = {
+    --                 -- Formatter configurations for filetype "lua" go here
+    --                 -- and will be executed in order
+    --                 lua = {
+    --                     -- "formatter.filetypes.lua" defines default configurations for the
+    --                     -- "lua" filetype
+    --                     require("formatter.filetypes.lua").stylua,
+    --                 },
+    --                 javascript = {
+    --                     require("formatter.filetypes.javascript").prettierd,
+    --                 },
+    --                 typescript = {
+    --                     require("formatter.filetypes.typescript").prettierd,
+    --                 },
+    --                 javascriptreact = {
+    --                     require("formatter.filetypes.javascriptreact").prettierd,
+    --                 },
+    --             },
+    --         })
+    --     end,
+    -- },
     --legacy dependencies (FOR ARCHIVE ONLY)
     --{
     --  "jose-elias-alvarez/null-ls.nvim",
