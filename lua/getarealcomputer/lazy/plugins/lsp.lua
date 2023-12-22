@@ -71,6 +71,7 @@ return {
                         "--stdio",
                     },
                 },
+                pyright = {},
                 gopls = {},
                 clangd = {},
                 rust_analyzer = {},
