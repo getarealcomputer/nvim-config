@@ -198,7 +198,7 @@ return {
             -- Define your formatters
             formatters_by_ft = {
                 lua = { "stylua" },
-                python = { "isort", "black" },
+                python = { "isort", "blackd", "black" },
                 javascript = { { "prettierd", "prettier" } },
                 typescript = { { "prettierd", "prettier" } },
                 javascriptreact = { { "prettierd", "prettier" } },
