@@ -154,6 +154,15 @@ require("formatter").setup({
     log_level = vim.log.levels.WARN,
     -- All formatter configurations are opt-in
     filetype = {
+        go = {
+            require("formatter.filetypes.go").gofmt,
+            require("formatter.filetypes.go").goimports,
+            require("formatter.filetypes.go").gofumpt,
+            require("formatter.filetypes.go").golines,
+        },
+        json = {
+            require("formatter.filetypes.json").prettierd,
+        },
         lua = {
             require("formatter.filetypes.lua").stylua,
         },
@@ -263,11 +272,19 @@ cmp.setup.cmdline({ "/", "?" }, {
 })
 
 --[[
+-- Masoning
+--]]
+require("mason").setup()
+require("mason-lspconfig").setup({
+    automatic_installation = true,
+})
+
+--[[
 -- Language server protocols setup
 -- ]]
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 local common_lsp_config = {
-    capabilities = capabilities,
+    capabilities = cmp_capabilities,
 }
 
 local pylsp_settings = {
@@ -292,6 +309,7 @@ local luals_settings = {
     },
 }
 local lsp_servers = {
+    gopls = {},
     tsserver = {},
     lua_ls = {
         settings = luals_settings,
