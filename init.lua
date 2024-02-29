@@ -310,7 +310,12 @@ local luals_settings = {
 }
 local lsp_servers = {
     gopls = {},
-    tsserver = {},
+    tsserver = {
+        cmd = {
+            "typescript-language-server",
+            "--stdio",
+        },
+    },
     lua_ls = {
         settings = luals_settings,
     },
